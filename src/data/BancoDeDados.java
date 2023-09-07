@@ -2,24 +2,57 @@ package data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class BancoDeDados {
+	//Parametros da Conexao
+	private String url;
+	private String usuario;
+	private String senha;
+	private Connection conexao;
 	
-	public static void main(String[] args) {
-		//Parametros da Conexao
-		String url = "jdbc:postgresql://localhost:5432/seu_banco_de_dados";
-		String usuario = "seu_usuario";
-		String senha = "sua_senha";
+	//Construtor da conexao com o banco de dados
+	public BancoDeDados(){
+		url = "jdbc:postgresql://localhost:5432/trabalhoFinalPoo";
+		usuario = "postgres";
+		senha = "1234"; //Senha que eu mesmo coloquei
 		
-		//Tratamento Obrigatorio de erros para o Banco de Dados na conexão.
 		try {
-			Connection conexao = DriverManager.getConnection(url, usuario, senha);
-			
-			conexao.close();
-		} catch (SQLException e) {
-			e.printStackTrace(); // Ele mostra o Tipo de Erro e como onde foi executado.
+			Class.forName("org.postgresql.Driver");
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			System.out.println("Conexao Sucedida");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+	
+	//executa uma instrução para o Banco de dados
+	public int executaSQL(String sql) {
+		try {
+			Statement stm = conexao.createStatement();
+			int res = stm.executeUpdate(sql);
+			conexao.close();
+			return res;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+	}
+	
+	public ResultSet selectFrom(String sql) {
+		try {
+			Statement stm = conexao.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			conexao.close();
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 	
 }
