@@ -1,10 +1,10 @@
 package data;
 
-import java.awt.Taskbar.State;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
 
 public class BancoDeDados {
 
@@ -16,9 +16,9 @@ public class BancoDeDados {
 
 	// Construtor da conexao com o banco de dados
 	public BancoDeDados() {
-		url = "jdbc:postgresql://localhost:5432/trabalhoFinalPoo";
+		url = "jdbc:postgresql://localhost:5432/TrabalhoFinalPOO";
 		usuario = "postgres";
-		senha = "1234"; // Senha que eu mesmo coloquei
+		senha = "123456"; // Senha que eu mesmo coloquei
 
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -36,8 +36,9 @@ public class BancoDeDados {
 			stm = conexao.createStatement();
 			int resultado = stm.executeUpdate(queryAdd);
 			if (resultado > 0) {
-				System.out.println("\t -- Estudante Adicionado --");
-				System.out.println("Nome: " + nome + "| Curso: " + curso + ".");
+				System.out.println("\n\t -- Estudante Adicionado --");
+				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
+				TimeUnit.SECONDS.sleep(2);				
 			} else {
 				System.out.println("Erro ao Adicionar o " + nome + " do curso " + curso);
 			}

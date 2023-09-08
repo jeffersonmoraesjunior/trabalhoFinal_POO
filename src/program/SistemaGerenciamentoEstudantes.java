@@ -4,24 +4,20 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import data.BancoDeDados;
+import view.Menu;
 
 public class SistemaGerenciamentoEstudantes {
-
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws InterruptedException {
 		int opcaoMenu;
 
 		// Menu Principal
-		Locale.setDefault(Locale.US);;
+		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
+		Menu menu = new Menu();
 
 		do {
-			System.out.println("\n\t--- SEJA BEM VINDO AO ESTUDANTECH ---\n");
-			System.out.println("[1] para ADICIONAR estudante ");
-			System.out.println("[2] para EDITAR estudante");
-			System.out.println("[3] para REMOVER estudante");
-			System.out.println("[4] para LISTAR estudante");
-			System.out.println("[5] para SAIR");
-
+			menu.menuPrincipal();
 			opcaoMenu = sc.nextInt();
 
 			switch (opcaoMenu) {
@@ -36,7 +32,7 @@ public class SistemaGerenciamentoEstudantes {
 			    System.out.print("Insira o Curso: ");
 			    String curso = sc.nextLine();
 				//instanciando - conexao com o banco				
-				dbAdicionar.adicionarEstudante(nome, curso);				
+				dbAdicionar.adicionarEstudante(nome, curso);
 				break;
 
 			case 2:
@@ -47,9 +43,9 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.print("\nInforme o ID Estudante: ");
 				String idEditar = sc.next();
 				System.out.print("Digite o Nome Atualizado: ");
-				String nomeEditar = sc.next();
+				String nomeEditar = sc.nextLine();
 				System.out.print("Digite o Curso Atualizado: ");
-				String cursoEditar = sc.next();
+				String cursoEditar = sc.nextLine();
 				
 				//Insercao banco de dados
 				dbEditar.atualizarEstudante(idEditar, nomeEditar, cursoEditar);
@@ -85,11 +81,10 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.println("Opção inválida, tente novamente!");
 				break;
 			}
-		}
-		while (opcaoMenu != 5);
+		} 
+		while(opcaoMenu != 5);
 
 		sc.close();
 
 	}
-
 }
