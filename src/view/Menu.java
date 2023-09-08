@@ -1,5 +1,9 @@
 package view;
 
-public class Menu {
-
+public enum Menu {
+	ADICIONAR,
+	EDITAR,
+	REMOVER,
+	LISTAR,
+	SAIR;
 }
