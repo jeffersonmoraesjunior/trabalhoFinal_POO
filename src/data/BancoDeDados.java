@@ -58,7 +58,7 @@ public class BancoDeDados {
 					curso, id);
 			int resultado = stm.executeUpdate(queryUpdate);
 			if (resultado > 0) {
-				System.out.println("\t -- Estudante Atualizado --");
+				System.out.println("\n\t -- Estudante Atualizado --");
 			} else {
 				System.out.println("Erro ao Editar estudante");
 			}
@@ -78,7 +78,7 @@ public class BancoDeDados {
 																							// Dados
 			int resultado = stm.executeUpdate(queryDelete);
 			if (resultado > 0) {
-				System.out.println("\t -- Estudante Remover --");
+				System.out.println("\n\t -- Estudante Remover --");
 			} else {
 				System.out.println("Erro ao remover o estudante.");
 			}

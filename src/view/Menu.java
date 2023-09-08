@@ -8,6 +8,7 @@ public class Menu {
 		System.out.println("[3] para REMOVER estudante");
 		System.out.println("[4] para LISTAR estudante");
 		System.out.println("[5] para SAIR");
+		System.out.print("\nEscolha a sua opção: ");
 	}
 	
 	

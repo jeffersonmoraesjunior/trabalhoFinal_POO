@@ -26,9 +26,9 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.println("\n\t -- Voce escolheu ADICIONAR -- ");
 				BancoDeDados dbAdicionar = new BancoDeDados();
 				//INPUT USER
+				sc.nextLine();
 				System.out.print("Insira o Nome: ");
-			    String nome = sc.next();
-			    sc.nextLine(); // Consuma a quebra de linha pendente
+			    String nome = sc.nextLine();			    
 			    System.out.print("Insira o Curso: ");
 			    String curso = sc.nextLine();
 				//instanciando - conexao com o banco				
@@ -42,6 +42,7 @@ public class SistemaGerenciamentoEstudantes {
 				//INPUT
 				System.out.print("\nInforme o ID Estudante: ");
 				String idEditar = sc.next();
+				sc.nextLine();
 				System.out.print("Digite o Nome Atualizado: ");
 				String nomeEditar = sc.nextLine();
 				System.out.print("Digite o Curso Atualizado: ");
