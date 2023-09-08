@@ -15,6 +15,7 @@ public class SistemaGerenciamentoEstudantes {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
 		Menu menu = new Menu();
+		BancoDeDados query = new BancoDeDados();
 
 		do {
 			menu.menuPrincipal();
@@ -24,7 +25,6 @@ public class SistemaGerenciamentoEstudantes {
 
 			case 1:
 				System.out.println("\n\t -- Voce escolheu ADICIONAR -- ");
-				BancoDeDados dbAdicionar = new BancoDeDados();
 				//INPUT USER
 				sc.nextLine();
 				System.out.print("Insira o Nome: ");
@@ -32,44 +32,45 @@ public class SistemaGerenciamentoEstudantes {
 			    System.out.print("Insira o Curso: ");
 			    String curso = sc.nextLine();
 				//instanciando - conexao com o banco				
-				dbAdicionar.adicionarEstudante(nome, curso);
+			    query.adicionarEstudante(nome, curso);
 				break;
 
 			case 2:
 				System.out.println("\n\t -- Voce escolheu EDITAR -- ");
-				BancoDeDados dbEditar = new BancoDeDados();
-				dbEditar.listarEstudante();
+				query.listarEstudante();
 				//INPUT
-				System.out.print("\nInforme o ID Estudante: ");
-				String idEditar = sc.next();
-				sc.nextLine();
-				System.out.print("Digite o Nome Atualizado: ");
-				String nomeEditar = sc.nextLine();
-				System.out.print("Digite o Curso Atualizado: ");
-				String cursoEditar = sc.nextLine();
-				
-				//Insercao banco de dados
-				dbEditar.atualizarEstudante(idEditar, nomeEditar, cursoEditar);
+				if(query.validacao == true) {
+					System.out.print("\nInforme o ID Estudante: ");
+					String idEditar = sc.next();
+					sc.nextLine();
+					System.out.print("Digite o Nome Atualizado: ");
+					String nomeEditar = sc.nextLine();
+					System.out.print("Digite o Curso Atualizado: ");
+					String cursoEditar = sc.nextLine();
+					
+					//Insercao banco de dados
+					query.atualizarEstudante(idEditar, nomeEditar, cursoEditar);
+				}
 				break;
 
 			case 3:
 				System.out.println("\n\t -- Voce escolheu REMOVER -- ");
-				BancoDeDados dbDelete = new BancoDeDados();
-				dbDelete.listarEstudante(); //Será listado os estudantes com base na lista mostrada acima
+				query.listarEstudante(); //Será listado os estudantes com base na lista mostrada acima
 				//INPUT USER
-				System.out.print("\nInforme o Id: ");
-				String id = sc.next();
-				System.out.print("Você tem certeza que deseja excluir (y/n): ");
-				char opc = sc.next().charAt(0);
-				if(opc == 'y') {
-					dbDelete.removerEstudando(id);
+				if(query.validacao == true) {
+					System.out.print("\nInforme o Id: ");
+					String id = sc.next();
+					System.out.print("Você tem certeza que deseja excluir (y/n): ");
+					char opc = sc.next().charAt(0);
+					if(opc == 'y') {
+						query.removerEstudando(id);
+					}
 				}
 				break;
 
 			case 4:
-				System.out.println("Voce escolheu LISTAR");
-				BancoDeDados dbListar = new BancoDeDados();
-				dbListar.listarEstudante();		
+				System.out.println("\n\t -- Voce escolheu LISTAR -- ");
+				query.listarEstudante();		
 				break;
 
 			case 5:

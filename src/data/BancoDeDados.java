@@ -13,6 +13,7 @@ public class BancoDeDados {
 	private String usuario;
 	private String senha;
 	private Connection conexao;
+	public boolean validacao = true;
 
 	// Construtor da conexao com o banco de dados
 	public BancoDeDados() {
@@ -23,7 +24,7 @@ public class BancoDeDados {
 		try {
 			Class.forName("org.postgresql.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
-			System.out.println("Conexao Sucedida");
+//			System.out.println("Conexao Sucedida");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,13 +97,19 @@ public class BancoDeDados {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
-			System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
-			while (resultado.next()) {
-				int id = resultado.getInt("id"); // nomes da coluna na tabela
-				String nome = resultado.getString("nome");
-				String curso = resultado.getString("curso");
-				System.out.println("->| " + id + " - " + nome + " - " + curso);
+			if(resultado.next() == true) {
+				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
+				while (resultado.next() != true) {
+					int id = resultado.getInt("id"); // nomes da coluna na tabela
+					String nome = resultado.getString("nome");
+					String curso = resultado.getString("curso");
+					System.out.println("->| " + id + " - " + nome + " - " + curso);
+				}
+			}else {
+				this.validacao = false;
+				System.out.println("\nNENHUM ALUNO CADASTRADO NO SISTEMA");
 			}
+			
 			// fechando a conexao.
 			resultado.close();
 			stm.close();
