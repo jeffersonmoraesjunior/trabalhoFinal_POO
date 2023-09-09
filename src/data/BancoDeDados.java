@@ -14,6 +14,7 @@ public class BancoDeDados {
 	private String usuario;
 	private String senha;
 	private Connection conexao;
+	public boolean validacao;
 
 	// Construtor da conexao com o banco de dados
 	public BancoDeDados() {
@@ -110,8 +111,10 @@ public class BancoDeDados {
 					String curso = resultado.getString("curso");
 					System.out.println("->| " + id + " - " + nome + " - " + curso);
 				} while (resultado.next());
+				this.validacao = true;
 			} else {
 				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
+				this.validacao = false;
 			}
 			// fechando a conexao.
 			resultado.close();

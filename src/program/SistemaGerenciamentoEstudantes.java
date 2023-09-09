@@ -38,30 +38,36 @@ public class SistemaGerenciamentoEstudantes {
 			case 2:
 				System.out.println("\n\t -- Voce escolheu EDITAR -- ");
 				query.listarEstudante();
-				//INPUT			
-				System.out.print("\nInforme o ID Estudante: ");
-				String idEditar = sc.next();
-				sc.nextLine();
-				System.out.print("Digite o Nome Atualizado: ");
-				String nomeEditar = sc.nextLine();
-				System.out.print("Digite o Curso Atualizado: ");
-				String cursoEditar = sc.nextLine();
-				
-				//Insercao banco de dados
-				query.atualizarEstudante(idEditar, nomeEditar, cursoEditar);				
+				//INPUT
+				if(query.validacao == true) {
+					System.out.print("\nInforme o ID Estudante: ");
+					String idEditar = sc.next();
+					sc.nextLine();
+					System.out.print("Digite o Nome Atualizado: ");
+					String nomeEditar = sc.nextLine();
+					System.out.print("Digite o Curso Atualizado: ");
+					String cursoEditar = sc.nextLine();
+					
+					//Insercao banco de dados
+					query.atualizarEstudante(idEditar, nomeEditar, cursoEditar);
+				}
+								
 				break;
 
 			case 3:
 				System.out.println("\n\t -- Voce escolheu REMOVER -- ");
 				query.listarEstudante(); //Será listado os estudantes com base na lista mostrada acima
-				//INPUT USER			
-				System.out.print("\nInforme o Id: ");
-				String id = sc.next();
-				System.out.print("Você tem certeza que deseja excluir (y/n): ");
-				char opc = sc.next().charAt(0);
-				if(opc == 'y') {
-					query.removerEstudando(id);
-				}			
+				if(query.validacao == true) {
+					//INPUT USER			
+					System.out.print("\nInforme o Id: ");
+					String id = sc.next();
+					System.out.print("Você tem certeza que deseja excluir (y/n): ");
+					char opc = sc.next().charAt(0);
+					if(opc == 'y') {
+						query.removerEstudando(id);
+					}					
+				}
+							
 				break;
 
 			case 4:
