@@ -1,10 +1,11 @@
 package data;
 
-import java.awt.Taskbar.State;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
 
 public class BancoDeDados {
 
@@ -18,26 +19,30 @@ public class BancoDeDados {
 	public BancoDeDados() {
 		url = "jdbc:postgresql://localhost:5432/trabalhoFinalPoo";
 		usuario = "postgres";
-		senha = "1234"; // Senha que eu mesmo coloquei
+		senha = "1234"; //Senha que eu mesmo coloquei
 
 		try {
 			Class.forName("org.postgresql.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
-			System.out.println("Conexao Sucedida");
+//			System.out.println("Conexao Sucedida");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+
 
 	public void adicionarEstudante(String nome, String curso) {
+//		Statement é um objeto que permite executar comandos SQL por uma conexão.
 		Statement stm;
 		try {
 			String queryAdd = String.format("INSERT INTO estudantes (nome, curso) VALUES ('%s', '%s');", nome, curso);
 			stm = conexao.createStatement();
 			int resultado = stm.executeUpdate(queryAdd);
 			if (resultado > 0) {
-				System.out.println("\t -- Estudante Adicionado --");
-				System.out.println("Nome: " + nome + "| Curso: " + curso + ".");
+				System.out.println("\n\t -- Estudante Adicionado --");
+				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
+				TimeUnit.SECONDS.sleep(0);				
 			} else {
 				System.out.println("Erro ao Adicionar o " + nome + " do curso " + curso);
 			}
@@ -57,7 +62,7 @@ public class BancoDeDados {
 					curso, id);
 			int resultado = stm.executeUpdate(queryUpdate);
 			if (resultado > 0) {
-				System.out.println("\t -- Estudante Atualizado --");
+				System.out.println("\n\t -- Estudante Atualizado --");
 			} else {
 				System.out.println("Erro ao Editar estudante");
 			}
@@ -71,13 +76,13 @@ public class BancoDeDados {
 
 	public void removerEstudando(String id) {
 		Statement stm;
-		try {
+		try {			
 			stm = conexao.createStatement();
-			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", id); // Comando para o Banco de
-																							// Dados
-			int resultado = stm.executeUpdate(queryDelete);
+			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", id); // Comando para o Banco de																					
+			int resultado = stm.executeUpdate(queryDelete);	
+			
 			if (resultado > 0) {
-				System.out.println("\t -- Estudante Remover --");
+				System.out.println("\n\t -- Estudante Remover --");
 			} else {
 				System.out.println("Erro ao remover o estudante.");
 			}
@@ -95,12 +100,18 @@ public class BancoDeDados {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
-			System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
-			while (resultado.next()) {
-				int id = resultado.getInt("id"); // nomes da coluna na tabela
-				String nome = resultado.getString("nome");
-				String curso = resultado.getString("curso");
-				System.out.println("->| " + id + " - " + nome + " - " + curso);
+		
+			if (resultado.next()) {				
+				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
+				do {
+					// nomes da coluna na tabela
+					int id = resultado.getInt("id");
+					String nome = resultado.getString("nome");
+					String curso = resultado.getString("curso");
+					System.out.println("->| " + id + " - " + nome + " - " + curso);
+				} while (resultado.next());
+			} else {
+				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
 			}
 			// fechando a conexao.
 			resultado.close();
@@ -108,6 +119,32 @@ public class BancoDeDados {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void exportarArquivo(String nomeArquivo) {
+		Statement stm;
+		try {
+			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
+			//Classe que trata sobre Arrquivos no Java - FileWriter
+			FileWriter escrevaArquivo = new FileWriter("C:\\" + nomeArquivo + ".txt");
+			stm = conexao.createStatement();
+			ResultSet resultado = stm.executeQuery(querySelect);
+			while(resultado.next()) {
+				int id = resultado.getInt("id");
+				String nome = resultado.getString("nome");
+				String curso = resultado.getString("curso");
+				
+				escrevaArquivo.write("->| " + id + " " + nome + " " + curso);
+				escrevaArquivo.write("\n");
+				
+				//fechando conexões
+				escrevaArquivo.close();
+				stm.close();	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//INFORMAÇÕES GERAIS
