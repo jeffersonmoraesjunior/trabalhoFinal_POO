@@ -1,9 +1,6 @@
 package data;
 
-<<<<<<< HEAD
 import java.io.FileWriter;
-=======
->>>>>>> 1e650ab97597afba51cc2ccfb2cd3ba7cddec283
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,17 +14,12 @@ public class BancoDeDados {
 	private String usuario;
 	private String senha;
 	private Connection conexao;
-	public boolean validacao = true;
 
 	// Construtor da conexao com o banco de dados
 	public BancoDeDados() {
-		url = "jdbc:postgresql://localhost:5432/TrabalhoFinalPOO";
+		url = "jdbc:postgresql://localhost:5432/trabalhoFinalPoo";
 		usuario = "postgres";
-<<<<<<< HEAD
 		senha = "1234"; //Senha que eu mesmo coloquei
-=======
-		senha = "123456"; // Senha que eu mesmo coloquei
->>>>>>> 1e650ab97597afba51cc2ccfb2cd3ba7cddec283
 
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -50,11 +42,7 @@ public class BancoDeDados {
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Adicionado --");
 				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
-<<<<<<< HEAD
 				TimeUnit.SECONDS.sleep(0);				
-=======
-				TimeUnit.SECONDS.sleep(2);				
->>>>>>> 1e650ab97597afba51cc2ccfb2cd3ba7cddec283
 			} else {
 				System.out.println("Erro ao Adicionar o " + nome + " do curso " + curso);
 			}
@@ -112,7 +100,6 @@ public class BancoDeDados {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
-<<<<<<< HEAD
 		
 			if (resultado.next()) {				
 				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
@@ -125,21 +112,7 @@ public class BancoDeDados {
 				} while (resultado.next());
 			} else {
 				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
-=======
-			if(resultado.next() == true) {
-				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
-				while (resultado.next() != true) {
-					int id = resultado.getInt("id"); // nomes da coluna na tabela
-					String nome = resultado.getString("nome");
-					String curso = resultado.getString("curso");
-					System.out.println("->| " + id + " - " + nome + " - " + curso);
-				}
-			}else {
-				this.validacao = false;
-				System.out.println("\nNENHUM ALUNO CADASTRADO NO SISTEMA");
->>>>>>> 1e650ab97597afba51cc2ccfb2cd3ba7cddec283
 			}
-			
 			// fechando a conexao.
 			resultado.close();
 			stm.close();
