@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/ARQUIVOS/SERRATEC/SERRATEC/serratec-2023.2/03-ORIENTADA A OBJETOS/trabalhoFinal_POO/postgresql-42.6.0.jar">
+	<classpathentry exported="true" kind="lib" path="C:/Users/letic/Downloads/postgresql-42.6.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
