@@ -17,9 +17,9 @@ public class BancoDeDados {
 
 	// Construtor da conexao com o banco de dados
 	public BancoDeDados() {
-		url = "jdbc:postgresql://localhost:5432/trabalhoFinalPoo";
+		url = "jdbc:postgresql://localhost:5432/TrabalhoFinalPOO";
 		usuario = "postgres";
-		senha = "1234"; //Senha que eu mesmo coloquei
+		senha = "123456"; //Senha que eu mesmo coloquei
 
 		try {
 			Class.forName("org.postgresql.Driver");
