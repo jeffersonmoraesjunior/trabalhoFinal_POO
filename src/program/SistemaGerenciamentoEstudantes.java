@@ -83,7 +83,7 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.println("\n\t -- Exportar Alunos -- ");
 				query.listarEstudante();
 				if(query.validacao == true) {
-					System.out.print("Digite o nome do Arquivo: ");
+					System.out.print("\nDigite o nome do Arquivo: ");
 					String nomeArquivo = sc.next();
 					query.exportarArquivo(nomeArquivo);
 				}
@@ -94,7 +94,7 @@ public class SistemaGerenciamentoEstudantes {
 				break;
 			}
 		} 
-		while(opcaoMenu != 6);
+		while(opcaoMenu != 7);
 
 		sc.close();
 

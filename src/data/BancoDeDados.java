@@ -1,36 +1,13 @@
 package data;
 
 import java.io.FileWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.concurrent.TimeUnit;
 
-public class BancoDeDados {
-
-	// Parametros da Conexao
-	private String url;
-	private String usuario;
-	private String senha;
-	private Connection conexao;
-	public boolean validacao;
-
-	// Construtor da conexao com o banco de dados
-	public BancoDeDados() {
-		url = "jdbc:postgresql://localhost:5432/trabalhoFinalPoo";
-		usuario = "postgres";
-		senha = "1234"; //Senha que eu mesmo coloquei
-
-		try {
-			Class.forName("org.postgresql.Driver");
-			conexao = DriverManager.getConnection(url, usuario, senha);
-//			System.out.println("Conexao Sucedida");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+public class BancoDeDados extends conexaoDataBase{
 	
+	public boolean validacao;
 
 
 	public void adicionarEstudante(String nome, String curso) {
@@ -59,11 +36,11 @@ public class BancoDeDados {
 		Statement stm;
 		try {
 			stm = conexao.createStatement();
-			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s", nome,
-					curso, id);
+			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s", nome, curso, id);
 			int resultado = stm.executeUpdate(queryUpdate);
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Atualizado --");
+				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
 			} else {
 				System.out.println("Erro ao Editar estudante");
 			}
@@ -137,7 +114,7 @@ public class BancoDeDados {
 				String nome = resultado.getString("nome");
 				String curso = resultado.getString("curso");
 				
-				escrevaArquivo.write("->| " + id + " " + nome + " " + curso);
+				escrevaArquivo.write("->| " + id + ", " + nome + ", " + curso);
 				escrevaArquivo.write("\n");			
 					
 			}
