@@ -8,7 +8,7 @@ import view.Menu;
 
 public class SistemaGerenciamentoEstudantes {
 	
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) {
 		int opcaoMenu;
 
 		// Menu Principal
@@ -50,8 +50,7 @@ public class SistemaGerenciamentoEstudantes {
 					
 					//Insercao banco de dados
 					query.atualizarEstudante(idEditar, nomeEditar, cursoEditar);
-				}
-								
+				}								
 				break;
 
 			case 3:
@@ -66,8 +65,7 @@ public class SistemaGerenciamentoEstudantes {
 					if(opc == 'y') {
 						query.removerEstudando(id);
 					}					
-				}
-							
+				}							
 				break;
 
 			case 4:
@@ -80,13 +78,23 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.println("\tESTUDANTECH - CONECTANDO O SABER");
 				System.exit(0); //Comando para fechar o systema;
 				break;
+			
+			case 6:
+				System.out.println("\n\t -- Exportar Alunos -- ");
+				query.listarEstudante();
+				if(query.validacao == true) {
+					System.out.print("Digite o nome do Arquivo: ");
+					String nomeArquivo = sc.next();
+					query.exportarArquivo(nomeArquivo);
+				}
+				break;
 
 			default:
 				System.out.println("Opção inválida, tente novamente!");
 				break;
 			}
 		} 
-		while(opcaoMenu != 5);
+		while(opcaoMenu != 6);
 
 		sc.close();
 

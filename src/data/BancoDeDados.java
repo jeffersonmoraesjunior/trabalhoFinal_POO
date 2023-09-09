@@ -129,7 +129,7 @@ public class BancoDeDados {
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			//Classe que trata sobre Arrquivos no Java - FileWriter
-			FileWriter escrevaArquivo = new FileWriter("C:\\" + nomeArquivo + ".txt");
+			FileWriter escrevaArquivo = new FileWriter("C:\\Temp\\" + nomeArquivo + ".txt");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
 			while(resultado.next()) {
@@ -138,12 +138,14 @@ public class BancoDeDados {
 				String curso = resultado.getString("curso");
 				
 				escrevaArquivo.write("->| " + id + " " + nome + " " + curso);
-				escrevaArquivo.write("\n");
-				
-				//fechando conexões
-				escrevaArquivo.close();
-				stm.close();	
+				escrevaArquivo.write("\n");			
+					
 			}
+			//fechando conexões
+			escrevaArquivo.close();
+			stm.close();
+			System.out.println("\nArquivo Exportado com Sucesso!");
+			System.out.println("Verifique no diretorio: C:\\Temp\\" + nomeArquivo + ".txt");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
