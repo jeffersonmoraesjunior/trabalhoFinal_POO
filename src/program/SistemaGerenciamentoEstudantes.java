@@ -83,9 +83,15 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.println("\n\t -- Exportar Alunos -- ");
 				query.listarEstudante();
 				if(query.validacao == true) {
+					sc.nextLine();
 					System.out.print("\nDigite o nome do Arquivo: ");
-					String nomeArquivo = sc.next();
-					query.exportarArquivo(nomeArquivo);
+                    /* Tratamento do nomeArquivo - remove os espacos do inicio e fim(.trim()), 
+                     * coloca em letras minusculas(.toLowerCase()) e substitui os " " por tracos (.replaceAll(" ", "_")) */
+					String nomeArquivo = sc.nextLine().toLowerCase().trim().replaceAll(" ", "_"); 					
+					System.out.println();					
+					System.out.print("Digite o tipo de arquivo para ser exportado: \n- txt \n- csv\n\n-> ");					
+					String extensaoArquivo = sc.next().toLowerCase();
+					query.exportarArquivo(nomeArquivo, extensaoArquivo);
 				}
 				break;
 

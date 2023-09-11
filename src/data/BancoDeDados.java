@@ -101,12 +101,12 @@ public class BancoDeDados extends conexaoDataBase{
 		}
 	}
 	
-	public void exportarArquivo(String nomeArquivo) {
+	public void exportarArquivo(String nomeArquivo, String extensao) {
 		Statement stm;
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			//Classe que trata sobre Arrquivos no Java - FileWriter
-			FileWriter escrevaArquivo = new FileWriter("C:\\Temp\\" + nomeArquivo + ".txt");
+			FileWriter escrevaArquivo = new FileWriter("C:\\Temp\\" + nomeArquivo + "." + extensao);
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
 			while(resultado.next()) {
@@ -114,7 +114,7 @@ public class BancoDeDados extends conexaoDataBase{
 				String nome = resultado.getString("nome");
 				String curso = resultado.getString("curso");
 				
-				escrevaArquivo.write("->| " + id + ", " + nome + ", " + curso);
+				escrevaArquivo.write(id + ", " + nome + ", " + curso);
 				escrevaArquivo.write("\n");			
 					
 			}
@@ -122,7 +122,7 @@ public class BancoDeDados extends conexaoDataBase{
 			escrevaArquivo.close();
 			stm.close();
 			System.out.println("\nArquivo Exportado com Sucesso!");
-			System.out.println("Verifique no diretorio: C:\\Temp\\" + nomeArquivo + ".txt");
+			System.out.println("Verifique no diretorio: C:\\Temp\\" + nomeArquivo + "." + extensao);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
