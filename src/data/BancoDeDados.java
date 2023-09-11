@@ -57,8 +57,7 @@ public class BancoDeDados extends conexaoDataBase{
 		try {			
 			stm = conexao.createStatement();
 			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", id); // Comando para o Banco de																					
-			int resultado = stm.executeUpdate(queryDelete);	
-			
+			int resultado = stm.executeUpdate(queryDelete);				
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Remover --");
 			} else {

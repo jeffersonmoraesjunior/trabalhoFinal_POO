@@ -28,9 +28,9 @@ public class SistemaGerenciamentoEstudantes {
 				//INPUT USER
 				sc.nextLine();
 				System.out.print("Insira o Nome: ");
-			    String nome = sc.nextLine();			    
+			    String nome = sc.nextLine().trim();			    
 			    System.out.print("Insira o Curso: ");
-			    String curso = sc.nextLine();
+			    String curso = sc.nextLine().trim();
 				//instanciando - conexao com o banco				
 			    query.adicionarEstudante(nome, curso);
 				break;
@@ -41,12 +41,12 @@ public class SistemaGerenciamentoEstudantes {
 				//INPUT
 				if(query.validacao == true) {
 					System.out.print("\nInforme o ID Estudante: ");
-					String idEditar = sc.next();
+					String idEditar = sc.next().trim();
 					sc.nextLine();
 					System.out.print("Digite o Nome Atualizado: ");
-					String nomeEditar = sc.nextLine();
+					String nomeEditar = sc.nextLine().trim();
 					System.out.print("Digite o Curso Atualizado: ");
-					String cursoEditar = sc.nextLine();
+					String cursoEditar = sc.nextLine().trim();
 					
 					//Insercao banco de dados
 					query.atualizarEstudante(idEditar, nomeEditar, cursoEditar);
@@ -59,9 +59,9 @@ public class SistemaGerenciamentoEstudantes {
 				if(query.validacao == true) {
 					//INPUT USER			
 					System.out.print("\nInforme o Id: ");
-					String id = sc.next();
+					String id = sc.next().trim();
 					System.out.print("Você tem certeza que deseja excluir (y/n): ");
-					char opc = sc.next().charAt(0);
+					char opc = sc.next().trim().charAt(0);
 					if(opc == 'y') {
 						query.removerEstudando(id);
 					}					
@@ -90,7 +90,7 @@ public class SistemaGerenciamentoEstudantes {
 					String nomeArquivo = sc.nextLine().toLowerCase().trim().replaceAll(" ", "_"); 					
 					System.out.println();					
 					System.out.print("Digite o tipo de arquivo para ser exportado: \n- txt \n- csv\n\n-> ");					
-					String extensaoArquivo = sc.next().toLowerCase();
+					String extensaoArquivo = sc.next().toLowerCase().trim();
 					query.exportarArquivo(nomeArquivo, extensaoArquivo);
 				}
 				break;
