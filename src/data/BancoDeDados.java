@@ -3,25 +3,26 @@ package data;
 import java.io.FileWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
+
+import model.Estudante;
 
 public class BancoDeDados extends conexaoDataBase{
 	
 	public boolean validacao;
-	private Statement stm;
+	private Statement stm = null;
+	
 
-
-	public void adicionarEstudante(String nome, String curso) {
+	public void adicionarEstudante(Estudante estudante) {
 //		Statement é um objeto que permite executar comandos SQL por uma conexão.
 		try {
-			String queryAdd = String.format("INSERT INTO estudantes (nome, curso) VALUES ('%s', '%s');", nome, curso);
+			String queryAdd = String.format("INSERT INTO estudantes (nome, curso) VALUES ('%s', '%s');", estudante.getNome(), estudante.getCurso());
 			stm = conexao.createStatement();
 			int resultado = stm.executeUpdate(queryAdd);
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Adicionado --");
-				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
+				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
-				System.out.println("Erro ao Adicionar o " + nome + " do curso " + curso);
+				System.out.println("Erro ao Adicionar o " + estudante.getNome() + " do curso " + estudante.getCurso());
 			}
 			// fechando a conexao.
 			stm.close();
@@ -31,14 +32,14 @@ public class BancoDeDados extends conexaoDataBase{
 
 	}
 
-	public void atualizarEstudante(String id, String nome, String curso) {
+	public void atualizarEstudante(String id, Estudante estudante) {
 		try {
 			stm = conexao.createStatement();
-			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s", nome, curso, id);
+			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s", estudante.getNome(), estudante.getCurso(), id);
 			int resultado = stm.executeUpdate(queryUpdate);
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Atualizado --");
-				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
+				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
 				System.out.println("Erro ao Editar estudante");
 			}
@@ -50,10 +51,10 @@ public class BancoDeDados extends conexaoDataBase{
 
 	}
 
-	public void removerEstudando(String id) {
+	public void removerEstudante(Estudante estudante) {
 		try {			
 			stm = conexao.createStatement();
-			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", id); // Comando para o Banco de																					
+			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", estudante.getID()); // Comando para o Banco de																					
 			int resultado = stm.executeUpdate(queryDelete);				
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Remover --");

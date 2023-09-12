@@ -4,7 +4,9 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import data.BancoDeDados;
+import model.Estudante;
 import view.Menu;
+
 
 public class SistemaGerenciamentoEstudantes {
 	
@@ -14,11 +16,12 @@ public class SistemaGerenciamentoEstudantes {
 		// Menu Principal
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
-		Menu menu = new Menu();
+		Menu menu = new Menu(sc);
+		Estudante estudante = new Estudante();
 		BancoDeDados query = new BancoDeDados();
 
 		do {
-			menu.menuPrincipal();
+			menu.exibirMenu();
 			opcaoMenu = sc.nextInt();
 
 			switch (opcaoMenu) {
@@ -31,8 +34,11 @@ public class SistemaGerenciamentoEstudantes {
 			    String nome = sc.nextLine().trim();			    
 			    System.out.print("Insira o Curso: ");
 			    String curso = sc.nextLine().trim();
-				//instanciando - conexao com o banco				
-			    query.adicionarEstudante(nome, curso);
+			    
+				//instanciando - conexao com Estudante
+			    estudante = new Estudante(nome, curso);
+			    //instanciando - conexao com o banco				
+			    query.adicionarEstudante(estudante);
 				break;
 
 			case 2:
@@ -48,8 +54,10 @@ public class SistemaGerenciamentoEstudantes {
 					System.out.print("Digite o Curso Atualizado: ");
 					String cursoEditar = sc.nextLine().trim();
 					
+					//instanciando - conexao com Estudante
+				    estudante = new Estudante(nomeEditar, cursoEditar);
 					//Insercao banco de dados
-					query.atualizarEstudante(idEditar, nomeEditar, cursoEditar);
+					query.atualizarEstudante(idEditar, estudante);
 				}								
 				break;
 
@@ -63,12 +71,16 @@ public class SistemaGerenciamentoEstudantes {
 					System.out.print("Você tem certeza que deseja excluir (y/n): ");
 					char opc = sc.next().trim().charAt(0);
 					if(opc == 'y') {
-						query.removerEstudando(id);
+						//instanciando - conexao com Estudante
+					    estudante = new Estudante(Integer.parseInt(id));
+					    //Insercao banco de dados
+						query.removerEstudante(estudante);
 					}					
 				}							
 				break;
 
 			case 4:
+				//Relacionado ao Banco de Dados
 				System.out.println("\n\t -- Voce escolheu LISTAR -- ");
 				query.listarEstudante();		
 				break;
