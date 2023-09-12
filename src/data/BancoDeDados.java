@@ -1,51 +1,30 @@
 package data;
 
 import java.io.FileWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.concurrent.TimeUnit;
 
-public class BancoDeDados {
+import model.Estudante;
 
-	// Parametros da Conexao
-	private String url;
-	private String usuario;
-	private String senha;
-	private Connection conexao;
+public class BancoDeDados extends conexaoDataBase {
+
 	public boolean validacao;
+	public Integer resultadoId;
+	private Statement stm = null;
 
-	// Construtor da conexao com o banco de dados
-	public BancoDeDados() {
-		url = "jdbc:postgresql://localhost:5432/TrabalhoFinalPOO";
-		usuario = "postgres";
-		senha = "123456"; //Senha que eu mesmo coloquei
-
-		try {
-			Class.forName("org.postgresql.Driver");
-			conexao = DriverManager.getConnection(url, usuario, senha);
-//			System.out.println("Conexao Sucedida");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-
-
-	public void adicionarEstudante(String nome, String curso) {
+	public void adicionarEstudante(Estudante estudante) {
 //		Statement é um objeto que permite executar comandos SQL por uma conexão.
-		Statement stm;
 		try {
-			String queryAdd = String.format("INSERT INTO estudantes (nome, curso) VALUES ('%s', '%s');", nome, curso);
+			String queryAdd = String.format("INSERT INTO estudantes (nome, curso) VALUES ('%s', '%s');",
+					estudante.getNome(), estudante.getCurso());
 			stm = conexao.createStatement();
 			int resultado = stm.executeUpdate(queryAdd);
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Adicionado --");
-				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
-				TimeUnit.SECONDS.sleep(0);				
+				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
-				System.out.println("Erro ao Adicionar o " + nome + " do curso " + curso);
+				System.out.println("Erro ao Adicionar o " + estudante.getNome() + " do curso " + estudante.getCurso());
 			}
 			// fechando a conexao.
 			stm.close();
@@ -55,15 +34,15 @@ public class BancoDeDados {
 
 	}
 
-	public void atualizarEstudante(String id, String nome, String curso) {
-		Statement stm;
+	public void atualizarEstudante(String id, Estudante estudante) {
 		try {
 			stm = conexao.createStatement();
-			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s", nome,
-					curso, id);
+			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s",
+					estudante.getNome(), estudante.getCurso(), id);
 			int resultado = stm.executeUpdate(queryUpdate);
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Atualizado --");
+				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
 				System.out.println("Erro ao Editar estudante");
 			}
@@ -75,15 +54,15 @@ public class BancoDeDados {
 
 	}
 
-	public void removerEstudando(String id) {
-		Statement stm;
-		try {			
+	public void removerEstudante(Estudante estudante) {
+		try {
 			stm = conexao.createStatement();
-			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", id); // Comando para o Banco de																					
-			int resultado = stm.executeUpdate(queryDelete);	
-			
+			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", estudante.getID()); // Comando
+																											// para o
+																											// Banco de
+			int resultado = stm.executeUpdate(queryDelete);
 			if (resultado > 0) {
-				System.out.println("\n\t -- Estudante Remover --");
+				System.out.println("\n\t -- Estudante Removido --");
 			} else {
 				System.out.println("Erro ao remover o estudante.");
 			}
@@ -96,13 +75,12 @@ public class BancoDeDados {
 	}
 
 	public void listarEstudante() {
-		Statement stm;
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
-		
-			if (resultado.next()) {				
+
+			if (resultado.next()) {
 				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
 				do {
 					// nomes da coluna na tabela
@@ -123,38 +101,66 @@ public class BancoDeDados {
 			e.printStackTrace();
 		}
 	}
-	
-	public void exportarArquivo(String nomeArquivo) {
-		Statement stm;
+
+	public void exportarArquivo(String nomeArquivo, String extensao) {
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
-			//Classe que trata sobre Arrquivos no Java - FileWriter
-			FileWriter escrevaArquivo = new FileWriter("C:\\" + nomeArquivo + ".txt");
+			// Classe que trata sobre arquivos no Java - FileWriter
+			FileWriter escrevaArquivo = new FileWriter("C:\\Temp\\" + nomeArquivo + "." + extensao);
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
-			while(resultado.next()) {
+			while (resultado.next()) {
 				int id = resultado.getInt("id");
 				String nome = resultado.getString("nome");
 				String curso = resultado.getString("curso");
-				
-				escrevaArquivo.write("->| " + id + " " + nome + " " + curso);
+
+				escrevaArquivo.write(id + ", " + nome + ", " + curso);
 				escrevaArquivo.write("\n");
-				
-				//fechando conexões
-				escrevaArquivo.close();
-				stm.close();	
+
 			}
+			// fechando conexões
+			escrevaArquivo.close();
+			stm.close();
+			System.out.println("\nArquivo Exportado com Sucesso!");
+			System.out.println("Verifique no diretorio: C:\\Temp\\" + nomeArquivo + "." + extensao);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	//INFORMAÇÕES GERAIS
-	
-	/* Statement é um objeto que permite executar comandos SQL por uma conexão.
+
+	public void validarIdEstudante(String id) {
+		try {
+			stm = conexao.createStatement();
+			String querySelectId = String.format("SELECT * FROM estudantes WHERE id = %s", id);
+
+			PreparedStatement preparedStatement = conexao.prepareStatement(querySelectId);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				resultadoId = 1;
+			} else {
+				resultadoId = 0;
+			}
+
+			// fechando a conexao.
+			stm.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// INFORMAÇÕES GERAIS
+
+	/*
+	 * Statement é um objeto que permite executar comandos SQL por uma conexão.
 	 * 
-	 * O .next() é usado para avançar para a próxima linha do ResultSet (resultados da tabela) fazendo assim, acessaremos cada .GET com as propriedades de String e Int.
+	 * O .next() é usado para avançar para a próxima linha do ResultSet (resultados
+	 * da tabela) fazendo assim, acessaremos cada .GET com as propriedades de String
+	 * e Int.
 	 */
 
 }
