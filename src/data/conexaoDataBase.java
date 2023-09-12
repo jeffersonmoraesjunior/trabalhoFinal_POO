@@ -6,9 +6,9 @@ import java.sql.DriverManager;
 public class conexaoDataBase {
 	
 	// Parametros da Conexao
-		private String url;
-		private String usuario;
-		private String senha;
+		String url;
+		String usuario;
+		String senha;
 		protected Connection conexao; //Classe vista somente no package	
 
 		// Construtor da conexao com o banco de dados
@@ -20,7 +20,7 @@ public class conexaoDataBase {
 			try {
 				Class.forName("org.postgresql.Driver");
 				conexao = DriverManager.getConnection(url, usuario, senha);
-				System.out.println("Conexao com Banco de Dados Sucedida");
+				System.out.println("Conexao com Banco de Dados Estabelecida.");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

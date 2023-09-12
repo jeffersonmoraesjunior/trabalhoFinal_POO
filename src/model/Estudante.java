@@ -10,7 +10,7 @@ public class Estudante {
 		
 	}
 
-	public Estudante(String nome, Integer iD, String curso) {
+	public Estudante(Integer iD, String nome, String curso) {
 		super();
 		this.nome = nome;
 		ID = iD;
@@ -35,7 +35,7 @@ public class Estudante {
 	
 	//na duvida se irei excluir o setID, pois o id precisa ser unico, não editavel.
 	public void setID(Integer iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 
 	public void setCurso(String curso) {

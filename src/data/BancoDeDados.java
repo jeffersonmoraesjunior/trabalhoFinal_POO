@@ -8,11 +8,11 @@ import java.util.concurrent.TimeUnit;
 public class BancoDeDados extends conexaoDataBase{
 	
 	public boolean validacao;
+	private Statement stm;
 
 
 	public void adicionarEstudante(String nome, String curso) {
 //		Statement é um objeto que permite executar comandos SQL por uma conexão.
-		Statement stm;
 		try {
 			String queryAdd = String.format("INSERT INTO estudantes (nome, curso) VALUES ('%s', '%s');", nome, curso);
 			stm = conexao.createStatement();
@@ -20,7 +20,6 @@ public class BancoDeDados extends conexaoDataBase{
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Adicionado --");
 				System.out.println("Nome: " + nome + " | Curso: " + curso + ".");
-				TimeUnit.SECONDS.sleep(0);				
 			} else {
 				System.out.println("Erro ao Adicionar o " + nome + " do curso " + curso);
 			}
@@ -33,7 +32,6 @@ public class BancoDeDados extends conexaoDataBase{
 	}
 
 	public void atualizarEstudante(String id, String nome, String curso) {
-		Statement stm;
 		try {
 			stm = conexao.createStatement();
 			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s", nome, curso, id);
@@ -53,7 +51,6 @@ public class BancoDeDados extends conexaoDataBase{
 	}
 
 	public void removerEstudando(String id) {
-		Statement stm;
 		try {			
 			stm = conexao.createStatement();
 			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", id); // Comando para o Banco de																					
@@ -72,7 +69,6 @@ public class BancoDeDados extends conexaoDataBase{
 	}
 
 	public void listarEstudante() {
-		Statement stm;
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			stm = conexao.createStatement();
@@ -101,10 +97,9 @@ public class BancoDeDados extends conexaoDataBase{
 	}
 	
 	public void exportarArquivo(String nomeArquivo, String extensao) {
-		Statement stm;
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
-			//Classe que trata sobre Arrquivos no Java - FileWriter
+			//Classe que trata sobre arquivos no Java - FileWriter
 			FileWriter escrevaArquivo = new FileWriter("C:\\Temp\\" + nomeArquivo + "." + extensao);
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
