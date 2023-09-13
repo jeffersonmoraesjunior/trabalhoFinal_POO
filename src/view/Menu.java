@@ -3,10 +3,13 @@ package view;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import data.BancoDeDados;
+
 public class Menu {
-	
-	private Scanner sc;
-	private Integer opcaoMenu = 0;
+
+	private static Scanner sc;
+	private int opcaoMenu = 0;
+
 	
 	public Menu(Scanner sc) {
 		this.sc = sc;
@@ -44,15 +47,49 @@ public class Menu {
 		
 	}
 	
-
-	//	//LIMPAR CONSOLE EM TERMINAL BASH - https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
+	//LIMPAR CONSOLE EM TERMINAL BASH - https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
 	public static void clearScreen() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
 	
+
 	public Integer getOpcaoMenu() {
 		return opcaoMenu;
+	}
+
+	public static void exibirMenuListar() throws InterruptedException {
+		int opcao = 0;	
+		
+		try {
+				System.out.println("Qual opção deseja listar: ");
+			
+			System.out.print("\n[1] Listar por 'ID'"
+						   + "\n[2] Listar por 'Nome'"
+						   + "\n[3] Listar po 'Curso' \n");
+			
+			System.out.print("\nInforme Opção: ");
+			opcao = sc.nextInt();
+			
+			if(opcao == 1) {
+				Menu.clearScreen();
+				BancoDeDados.listarEstudanteId();
+			}
+			else if(opcao == 2) {
+				Menu.clearScreen();
+				BancoDeDados.listarEstudanteNome();
+			}
+			else if(opcao == 3) {
+				Menu.clearScreen();
+				BancoDeDados.listarEstudanteCurso();
+			}
+			else {
+				System.out.println("Entrada inválida, tente novamente.");
+			}
+		}
+		catch(Exception e) {
+			System.out.println("Erro ao listar, digite um número inteiro.");
+		}
 	}
 	
 	

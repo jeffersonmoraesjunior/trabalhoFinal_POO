@@ -54,7 +54,7 @@ public class SistemaGerenciamentoEstudantes {
 			case 2:
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu EDITAR -- \n");
-				query.listarEstudante();
+				BancoDeDados.listarEstudanteId();
 				//INPUT
 				if(query.getValidacao() == true) {
 					System.out.print("\nInforme o ID Estudante: ");
@@ -93,7 +93,7 @@ public class SistemaGerenciamentoEstudantes {
 			case 3:
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu REMOVER -- \n");
-				query.listarEstudante(); //Será listado os estudantes com base na lista mostrada acima
+				BancoDeDados.listarEstudanteId(); //Será listado os estudantes com base na lista mostrada acima
 				if(query.getValidacao() == true) {
 					//INPUT USER			
 					System.out.print("\nInforme o Id: ");					
@@ -133,7 +133,7 @@ public class SistemaGerenciamentoEstudantes {
 				Menu.clearScreen();
 				//Relacionado ao Banco de Dados
 				System.out.println("\n\t -- Você escolheu LISTAR -- \n");
-				query.listarEstudante();
+				Menu.exibirMenuListar();
 				sc.nextLine();
 				System.out.print("\nPressione ENTER para continuar: ");
 				sc.nextLine();
@@ -150,7 +150,7 @@ public class SistemaGerenciamentoEstudantes {
 			case 6:
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu EXPORTAR -- \n");
-				query.listarEstudante();
+				BancoDeDados.listarEstudanteId();
 				if(query.getValidacao() == true) {
 					sc.nextLine();
 					System.out.print("\nDigite o nome do Arquivo: ");

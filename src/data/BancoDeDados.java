@@ -11,9 +11,9 @@ import view.Menu;
 
 public class BancoDeDados extends ConexaoDataBase {
 
-	private Boolean validacao;
+	private static Boolean validacao;
 	private Integer resultadoId;
-	private Statement stm = null;
+	private static Statement stm = null;
 
 	public void adicionarEstudante(Estudante estudante) throws InterruptedException {
 //		Statement é um objeto que permite executar comandos SQL por uma conexão.
@@ -63,8 +63,7 @@ public class BancoDeDados extends ConexaoDataBase {
 	public void removerEstudante(Estudante estudante) throws InterruptedException {
 		try {
 			stm = conexao.createStatement();
-			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", estudante.getID()); // Comando
-																											// para o
+			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", estudante.getID()); // Comando para o
 																											// Banco de
 			int resultado = stm.executeUpdate(queryDelete);
 			if (resultado > 0) {
@@ -82,7 +81,7 @@ public class BancoDeDados extends ConexaoDataBase {
 
 	}
 
-	public void listarEstudante() throws InterruptedException {
+	public static void listarEstudanteId() throws InterruptedException {
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			stm = conexao.createStatement();
@@ -97,10 +96,10 @@ public class BancoDeDados extends ConexaoDataBase {
 					String curso = resultado.getString("curso");
 					System.out.println("->| " + id + " - " + nome + " - " + curso);
 				} while (resultado.next());
-				this.validacao = true;
+				validacao = true;
 			} else {
 				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
-				this.validacao = false;
+				validacao = false;
 			}
 			// fechando a conexao.
 			resultado.close();
@@ -109,6 +108,61 @@ public class BancoDeDados extends ConexaoDataBase {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void listarEstudanteNome() {
+		try {
+			String querySelect = String.format("SELECT nome, STRING_AGG(curso, ', ') FROM estudantes GROUP BY nome;");
+			stm = conexao.createStatement();
+			ResultSet resultado = stm.executeQuery(querySelect);
+			
+			if (resultado.next()) {
+				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- \n");
+				do {
+					// nomes da coluna na tabela
+					String nome = resultado.getString("nome");
+					String string_agg = resultado.getString("string_agg");
+					System.out.println("->| " + nome + " - " + string_agg);
+				} while (resultado.next());
+				validacao = true;
+			} else {
+				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
+				validacao = false;
+			}
+			// fechando a conexao.
+			resultado.close();
+			stm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void listarEstudanteCurso() {
+		try {
+			String querySelect = String.format("SELECT curso, STRING_AGG(nome, ', ') FROM estudantes GROUP BY curso;");
+			stm = conexao.createStatement();
+			ResultSet resultado = stm.executeQuery(querySelect);
+
+			if (resultado.next()) {
+				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- \n");
+				do {
+					// nomes da coluna na tabela
+					String string_agg = resultado.getString("string_agg");
+					String curso = resultado.getString("curso");
+					System.out.println("->| " + curso + " - " + string_agg);
+				} while (resultado.next());
+				validacao = true;
+			} else {
+				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
+				validacao = false;
+			}
+			// fechando a conexao.
+			resultado.close();
+			stm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public void exportarArquivo(String nomeArquivo, String extensao) throws InterruptedException {
 		try {
