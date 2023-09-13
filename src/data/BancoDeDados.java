@@ -4,16 +4,19 @@ import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.InputMismatchException;
+import java.util.concurrent.TimeUnit;
 
 import model.Estudante;
+import view.Menu;
 
-public class BancoDeDados extends conexaoDataBase {
+public class BancoDeDados extends ConexaoDataBase {
 
 	public boolean validacao;
 	public Integer resultadoId;
 	private Statement stm = null;
 
-	public void adicionarEstudante(Estudante estudante) {
+	public void adicionarEstudante(Estudante estudante) throws InterruptedException {
 //		Statement é um objeto que permite executar comandos SQL por uma conexão.
 		try {
 			String queryAdd = String.format("INSERT INTO estudantes (nome, curso) VALUES ('%s', '%s');",
@@ -31,10 +34,12 @@ public class BancoDeDados extends conexaoDataBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		TimeUnit.SECONDS.sleep(2);
+		Menu.clearScreen();
 
 	}
 
-	public void atualizarEstudante(String id, Estudante estudante) {
+	public void atualizarEstudante(String id, Estudante estudante) throws InterruptedException {
 		try {
 			stm = conexao.createStatement();
 			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s",
@@ -51,10 +56,12 @@ public class BancoDeDados extends conexaoDataBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		TimeUnit.SECONDS.sleep(2);
+		Menu.clearScreen();
 
 	}
 
-	public void removerEstudante(Estudante estudante) {
+	public void removerEstudante(Estudante estudante) throws InterruptedException {
 		try {
 			stm = conexao.createStatement();
 			String queryDelete = String.format("DELETE FROM estudantes WHERE id = %s", estudante.getID()); // Comando
@@ -71,17 +78,19 @@ public class BancoDeDados extends conexaoDataBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		TimeUnit.SECONDS.sleep(2);
+		Menu.clearScreen();
 
 	}
 
-	public void listarEstudante() {
+	public void listarEstudante() throws InterruptedException {
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
 
 			if (resultado.next()) {
-				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- ");
+				System.out.println("\n\t -- LISTA DOS ESTUDANTES -- \n");
 				do {
 					// nomes da coluna na tabela
 					int id = resultado.getInt("id");
@@ -102,7 +111,7 @@ public class BancoDeDados extends conexaoDataBase {
 		}
 	}
 
-	public void exportarArquivo(String nomeArquivo, String extensao) {
+	public void exportarArquivo(String nomeArquivo, String extensao) throws InterruptedException {
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			// Classe que trata sobre arquivos no Java - FileWriter
@@ -121,15 +130,18 @@ public class BancoDeDados extends conexaoDataBase {
 			// fechando conexões
 			escrevaArquivo.close();
 			stm.close();
+			Menu.clearScreen();
 			System.out.println("\nArquivo Exportado com Sucesso!");
 			System.out.println("Verifique no diretorio: C:\\Temp\\" + nomeArquivo + "." + extensao);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		TimeUnit.SECONDS.sleep(2);
 
 	}
 
-	public void validarIdEstudante(String id) {
+	public void validarIdEstudante(String id){
+		
 		try {
 			stm = conexao.createStatement();
 			String querySelectId = String.format("SELECT * FROM estudantes WHERE id = %s", id);
@@ -148,7 +160,8 @@ public class BancoDeDados extends conexaoDataBase {
 			stm.close();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("Dado inválido!");
 		}
 
 	}

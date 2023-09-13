@@ -10,8 +10,8 @@ public class Menu {
 		this.sc = sc;
 	}
 	
-	public void exibirMenu() {
-		System.out.println("\n\n\t--- SEJA BEM VINDO AO ESTUDANTECH ---\n");
+	public void exibirMenu() throws InterruptedException {
+		System.out.println("\n    -- MENU PRINCIPAL --\n");
 		System.out.println("[1] para ADICIONAR estudante ");
 		System.out.println("[2] para EDITAR estudante");
 		System.out.println("[3] para REMOVER estudante");
@@ -22,10 +22,10 @@ public class Menu {
 	}
 	
 //	//LIMPAR CONSOLE EM TERMINAL BASH - https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
-//	public static void clearScreen() {
-//		System.out.print("\033[H\033[2J");
-//		System.out.flush();
-//	}
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
 	
 	
 }
