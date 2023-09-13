@@ -140,7 +140,7 @@ public class BancoDeDados extends ConexaoDataBase {
 
 	}
 
-	public void validarIdEstudante(String id){
+	public void validarIdEstudante(String id) {
 		
 		try {
 			stm = conexao.createStatement();
@@ -161,7 +161,7 @@ public class BancoDeDados extends ConexaoDataBase {
 
 		} catch (Exception e) {
 //			e.printStackTrace();
-			System.out.println("Dado inválido!");
+//			System.out.println("Dado inválido!");
 		}
 
 	}

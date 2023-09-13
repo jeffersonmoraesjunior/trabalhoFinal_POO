@@ -2,6 +2,7 @@
 
 package program;
 
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -14,7 +15,6 @@ import view.Menu;
 public class SistemaGerenciamentoEstudantes {
 	
 	public static void main(String[] args) throws InterruptedException {
-		int opcaoMenu;
 
 		// Menu Principal
 		Locale.setDefault(Locale.US);
@@ -30,10 +30,10 @@ public class SistemaGerenciamentoEstudantes {
 		System.out.println("\n\n\t--- SEJA BEM VINDO AO ESTUDANTECH ---\n");
 
 		do {
-			menu.exibirMenu();
-			opcaoMenu = sc.nextInt();
+			menu.exibirMenu();				
+			
 
-			switch (opcaoMenu) {
+			switch (menu.opcaoMenu) {
 
 			case 1:
 				Menu.clearScreen();
@@ -58,25 +58,35 @@ public class SistemaGerenciamentoEstudantes {
 				//INPUT
 				if(query.validacao == true) {
 					System.out.print("\nInforme o ID Estudante: ");
-					String idEditar = sc.next().trim();
-					sc.nextLine();
-					query.validarIdEstudante(idEditar);
-					if(query.resultadoId == 1) {
-						System.out.print("Digite o Nome Atualizado: ");
-						String nomeEditar = sc.nextLine().trim();
-						System.out.print("Digite o Curso Atualizado: ");
-						String cursoEditar = sc.nextLine().trim();
-						
-						//instanciando - conexao com Estudante
-					    estudante = new Estudante(nomeEditar, cursoEditar);
-						//Insercao banco de dados
-						query.atualizarEstudante(idEditar, estudante);
-					}else {
-						System.out.println("\nEsse ID não existe na lista de estudantes!");
-						System.out.print("Pressione ENTER para voltar ao menu principal: ");
+					try {
+						String idEditar = sc.next().trim();
 						sc.nextLine();
+						query.validarIdEstudante(idEditar);
+						if(query.resultadoId == 1) {
+							System.out.print("Digite o Nome Atualizado: ");
+							String nomeEditar = sc.nextLine().trim();
+							System.out.print("Digite o Curso Atualizado: ");
+							String cursoEditar = sc.nextLine().trim();
+							
+							//instanciando - conexao com Estudante
+						    estudante = new Estudante(nomeEditar, cursoEditar);
+							//Insercao banco de dados
+							query.atualizarEstudante(idEditar, estudante);
+						}
+						else {
+							System.out.println("\nEsse ID não existe na lista de estudantes!");
+							System.out.print("Pressione ENTER para voltar ao menu principal: ");
+							sc.nextLine();
+							Menu.clearScreen();
+						}				
+					}
+					catch (InputMismatchException e) {
+						System.out.println("Entrada inválida!");
+					}
+					catch (NullPointerException e) {
 						Menu.clearScreen();
-					}					
+						System.out.println("\nEntrada inválida, digite um número Inteiro!");
+					}						
 				}								
 				break;
 
@@ -86,26 +96,36 @@ public class SistemaGerenciamentoEstudantes {
 				query.listarEstudante(); //Será listado os estudantes com base na lista mostrada acima
 				if(query.validacao == true) {
 					//INPUT USER			
-					System.out.print("\nInforme o Id: ");
-					String id = sc.next().trim();
-					query.validarIdEstudante(id);
-					if(query.resultadoId == 1) {
-						System.out.print("Você tem certeza que deseja excluir (y/n): ");
-						char opc = sc.next().trim().charAt(0);
-						if(opc == 'y') {
-							//instanciando - conexao com Estudante
-						    estudante = new Estudante(Integer.parseInt(id));
-						    //Insercao banco de dados
-							query.removerEstudante(estudante);
+					System.out.print("\nInforme o Id: ");					
+					try {
+						String id = sc.next().trim();
+						query.validarIdEstudante(id);
+						if(query.resultadoId == 1) {
+							System.out.print("Você tem certeza que deseja excluir (y/n): ");
+							char opc = sc.next().trim().charAt(0);
+							if(opc == 'y') {
+								//instanciando - conexao com Estudante
+							    estudante = new Estudante(Integer.parseInt(id));
+							    //Insercao banco de dados
+								query.removerEstudante(estudante);
+							}
 						}
-					}else {
-						System.out.println("\nEsse ID não existe na lista de estudantes!");
-						sc.nextLine();
-						System.out.print("Pressione ENTER para voltar ao menu principal: ");
-						sc.nextLine();
-						Menu.clearScreen();
+						else {
+							System.out.println("\nEsse ID não existe na lista de estudantes!");
+							sc.nextLine();
+							System.out.print("Pressione ENTER para voltar ao menu principal: ");
+							sc.nextLine();
+							Menu.clearScreen();
+						}
+						
+					} 
+					catch (InputMismatchException e) {
+						System.out.println("Entrada inválida!");
 					}
-										
+					catch (NullPointerException e) {
+						Menu.clearScreen();
+						System.out.println("\nEntrada inválida, digite um número Inteiro!");
+					}					
 				}							
 				break;
 
@@ -149,7 +169,7 @@ public class SistemaGerenciamentoEstudantes {
 				break;
 			}
 		} 
-		while(opcaoMenu != 7);
+		while(menu.opcaoMenu != 7);
 
 		sc.close();
 
