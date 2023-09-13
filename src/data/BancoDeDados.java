@@ -4,7 +4,6 @@ import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.InputMismatchException;
 import java.util.concurrent.TimeUnit;
 
 import model.Estudante;
@@ -12,8 +11,8 @@ import view.Menu;
 
 public class BancoDeDados extends ConexaoDataBase {
 
-	public boolean validacao;
-	public Integer resultadoId;
+	private Boolean validacao;
+	private Integer resultadoId;
 	private Statement stm = null;
 
 	public void adicionarEstudante(Estudante estudante) throws InterruptedException {
@@ -164,6 +163,14 @@ public class BancoDeDados extends ConexaoDataBase {
 //			System.out.println("Dado inválido!");
 		}
 
+	}
+	
+	public Boolean getValidacao() {
+		return validacao;
+	}
+
+	public Integer getResultadoId() {
+		return resultadoId;
 	}
 
 	// INFORMAÇÕES GERAIS

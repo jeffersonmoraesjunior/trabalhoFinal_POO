@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Menu {
 	
 	private Scanner sc;
-	public int opcaoMenu = 0;
+	private Integer opcaoMenu = 0;
 	
 	public Menu(Scanner sc) {
 		this.sc = sc;
@@ -44,10 +44,15 @@ public class Menu {
 		
 	}
 	
-//	//LIMPAR CONSOLE EM TERMINAL BASH - https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
+
+	//	//LIMPAR CONSOLE EM TERMINAL BASH - https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
 	public static void clearScreen() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
+	}
+	
+	public Integer getOpcaoMenu() {
+		return opcaoMenu;
 	}
 	
 	

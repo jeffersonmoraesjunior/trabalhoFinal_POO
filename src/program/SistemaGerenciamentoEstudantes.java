@@ -33,7 +33,7 @@ public class SistemaGerenciamentoEstudantes {
 			menu.exibirMenu();				
 			
 
-			switch (menu.opcaoMenu) {
+			switch (menu.getOpcaoMenu()) {
 
 			case 1:
 				Menu.clearScreen();
@@ -56,13 +56,13 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.println("\n\t -- Você escolheu EDITAR -- \n");
 				query.listarEstudante();
 				//INPUT
-				if(query.validacao == true) {
+				if(query.getValidacao() == true) {
 					System.out.print("\nInforme o ID Estudante: ");
 					try {
 						String idEditar = sc.next().trim();
 						sc.nextLine();
 						query.validarIdEstudante(idEditar);
-						if(query.resultadoId == 1) {
+						if(query.getResultadoId() == 1) {
 							System.out.print("Digite o Nome Atualizado: ");
 							String nomeEditar = sc.nextLine().trim();
 							System.out.print("Digite o Curso Atualizado: ");
@@ -94,13 +94,13 @@ public class SistemaGerenciamentoEstudantes {
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu REMOVER -- \n");
 				query.listarEstudante(); //Será listado os estudantes com base na lista mostrada acima
-				if(query.validacao == true) {
+				if(query.getValidacao() == true) {
 					//INPUT USER			
 					System.out.print("\nInforme o Id: ");					
 					try {
 						String id = sc.next().trim();
 						query.validarIdEstudante(id);
-						if(query.resultadoId == 1) {
+						if(query.getResultadoId() == 1) {
 							System.out.print("Você tem certeza que deseja excluir (y/n): ");
 							char opc = sc.next().trim().charAt(0);
 							if(opc == 'y') {
@@ -151,7 +151,7 @@ public class SistemaGerenciamentoEstudantes {
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu EXPORTAR -- \n");
 				query.listarEstudante();
-				if(query.validacao == true) {
+				if(query.getValidacao() == true) {
 					sc.nextLine();
 					System.out.print("\nDigite o nome do Arquivo: ");
                     /* Tratamento do nomeArquivo - remove os espacos do inicio e fim(.trim()), 
@@ -169,7 +169,7 @@ public class SistemaGerenciamentoEstudantes {
 				break;
 			}
 		} 
-		while(menu.opcaoMenu != 7);
+		while(menu.getOpcaoMenu() != 7);
 
 		sc.close();
 

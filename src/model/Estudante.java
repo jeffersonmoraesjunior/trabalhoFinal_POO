@@ -41,8 +41,8 @@ public class Estudante {
 	}
 	
 	//na duvida se irei excluir o setID, pois o id precisa ser unico, não editavel.
-	public void setID(Integer iD) {
-		this.ID = iD;
+	public void setID(Integer id) {
+		this.ID = id;
 	}
 
 	public void setCurso(String curso) {
