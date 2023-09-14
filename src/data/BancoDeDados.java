@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -219,7 +220,7 @@ public class BancoDeDados extends ConexaoDataBase {
 	}
 	
 
-	public void exportarArquivo(String nomeArquivo, String extensao) throws InterruptedException {
+	public void exportarArquivo(String nomeArquivo, String extensao) throws InterruptedException, InputMismatchException {
 		try {
 			String querySelect = String.format("SELECT * FROM estudantes ORDER BY id;");
 			// Classe que trata sobre arquivos no Java - FileWriter
@@ -243,13 +244,18 @@ public class BancoDeDados extends ConexaoDataBase {
 			System.out.println("\nArquivo Exportado com Sucesso!");
 			System.out.println("Verifique no diretorio: C:\\Temp\\" + nomeArquivo + "." + extensao);
 			System.out.print("\nDeseja abrir o Diretório (y/n): ");
-			char abrirExplorer = sc.next().charAt(0);
+			char abrirExplorer = sc.next().trim().toLowerCase().charAt(0);
+			while(abrirExplorer != 'y' && abrirExplorer != 'n') {
+				System.out.println("Opção Invalida, tente novamente!");
+				System.out.print("\nDeseja abrir o Diretório (y/n): ");
+				abrirExplorer = sc.next().trim().toLowerCase().charAt(0);								
+			}			
 			if(abrirExplorer == 'y') {
 				TimeUnit.SECONDS.sleep(1);
 				OpenExplorer.main();
 			}
-			
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		TimeUnit.SECONDS.sleep(1);

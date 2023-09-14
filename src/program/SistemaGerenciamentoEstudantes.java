@@ -116,15 +116,22 @@ public class SistemaGerenciamentoEstudantes {
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu EXPORTAR -- \n");
 				BancoDeDados.listarEstudanteId();
+				
 				if(BancoDeDados.getValidacao() == true) {
 					sc.nextLine();
 					System.out.print("\nDigite o nome do Arquivo: ");
                     /* Tratamento do nomeArquivo - remove os espacos do inicio e fim(.trim()), 
                      * coloca em letras minusculas(.toLowerCase()) e substitui os " " por tracos (.replaceAll(" ", "_")) */
 					String nomeArquivo = sc.nextLine().toLowerCase().trim().replaceAll(" ", "_"); 					
-					System.out.println();					
-					System.out.print("Digite o tipo de arquivo para ser exportado: \n- txt \n- csv\n\n-> ");					
-					String extensaoArquivo = sc.next().toLowerCase().trim();
+					System.out.println();
+					System.out.print("Escolha o tipo de arquivo para ser exportado: \n- txt \n- csv\n\nDigite Aqui: ");					
+					String extensaoArquivo = sc.next().trim().toLowerCase();
+					
+					while(!extensaoArquivo.equals("txt") && !extensaoArquivo.equals("csv")) {
+						System.out.println("\nOpção de Extensão Inválida, tente novamente.\n");
+						System.out.print("Escolha o tipo de arquivo para ser exportado: \n- txt \n- csv\n\nDigite Aqui: ");							
+						extensaoArquivo = sc.next().trim().toLowerCase();
+					}
 					query.exportarArquivo(nomeArquivo, extensaoArquivo);
 				}
 				break;
