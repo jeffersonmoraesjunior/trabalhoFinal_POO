@@ -54,24 +54,48 @@ public class SistemaGerenciamentoEstudantes {
 			case 2:
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu EDITAR -- \n");
+				Menu.exibirMenuEditar();
 				BancoDeDados.listarEstudanteId();
+				String nomeEditar = "Não foi atualizado";
+				String cursoEditar = "Não foi atualizado";
 				//INPUT
 				if(query.getValidacao() == true) {
-					System.out.print("\nInforme o ID Estudante: ");
+					System.out.print("\nInforme o ID Estudante: ");					
 					try {
 						String idEditar = sc.next().trim();
 						sc.nextLine();
 						query.validarIdEstudante(idEditar);
 						if(query.getResultadoId() == 1) {
-							System.out.print("Digite o Nome Atualizado: ");
-							String nomeEditar = sc.nextLine().trim();
-							System.out.print("Digite o Curso Atualizado: ");
-							String cursoEditar = sc.nextLine().trim();
-							
-							//instanciando - conexao com Estudante
-						    estudante = new Estudante(nomeEditar, cursoEditar);
-							//Insercao banco de dados
-							query.atualizarEstudante(idEditar, estudante);
+							try {
+								if(Menu.getOpcaoMenuEditarEstudante() == 1) {
+									System.out.print("Digite o nome atualizado: ");
+									nomeEditar = sc.nextLine().trim();
+									Menu.clearScreen();
+									estudante = new Estudante(nomeEditar, cursoEditar);
+									BancoDeDados.atualizarEstudanteNome(idEditar, estudante);
+								}
+								else if(Menu.getOpcaoMenuEditarEstudante() == 2) {
+									System.out.print("Digite o curso atualizado: ");
+									cursoEditar = sc.nextLine().trim();
+									Menu.clearScreen();
+									estudante = new Estudante(nomeEditar, cursoEditar);
+									BancoDeDados.atualizarEstudanteCurso(idEditar, estudante);
+								}
+								else if(Menu.getOpcaoMenuEditarEstudante() == 3) {
+									System.out.print("Digite o nome atualizado: ");
+									nomeEditar = sc.nextLine().trim();
+									System.out.print("Digite o curso atualizado: ");
+									cursoEditar = sc.nextLine().trim();
+									Menu.clearScreen();
+									estudante = new Estudante(nomeEditar, cursoEditar);
+									BancoDeDados.atualizarEstudanteAmbos(idEditar, estudante);
+								}
+								else {
+									System.out.println("Entrada inválida, tente novamente.");
+								}
+							}catch (Exception e) {
+								System.out.println("Erro ao editar, digite um número inteiro.");
+							}
 						}
 						else {
 							System.out.println("\nEsse ID não existe na lista de estudantes!");

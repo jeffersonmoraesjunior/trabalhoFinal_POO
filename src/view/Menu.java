@@ -4,11 +4,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import data.BancoDeDados;
+import model.Estudante;
 
 public class Menu {
 
 	private static Scanner sc;
 	private int opcaoMenu = 0;
+	private static int opcaoMenuEditarEstudante = 0;
 
 	
 	public Menu(Scanner sc) {
@@ -91,6 +93,30 @@ public class Menu {
 			System.out.println("Erro ao listar, digite um número inteiro.");
 		}
 	}
+	
+	public static void exibirMenuEditar() throws InterruptedException {	
+		
+		try {
+				System.out.println("Qual opção deseja editar: ");
+				
+				System.out.print("\n[1] Editar apenas o Nome"
+							   + "\n[2] Editar apenas o Curso"
+							   + "\n[3] Editar ambos (Nome e Curso) \n");
+				
+				System.out.print("\nInforme Opção: ");
+				opcaoMenuEditarEstudante = sc.nextInt();
+				
+		}
+		catch(Exception e) {
+			System.out.println("Erro ao listar, digite um número inteiro.");
+		}
+	}
+	
+	public static int getOpcaoMenuEditarEstudante() {
+		return opcaoMenuEditarEstudante;
+	}
+	
+	
 	
 	
 }

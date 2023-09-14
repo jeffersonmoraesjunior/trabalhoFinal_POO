@@ -13,15 +13,22 @@ public class Estudante {
 	public Estudante(Integer id) {
 		this.ID = id;
 	}
+	
 	public Estudante(String nome, String curso) {
 		super();
 		this.nome = nome;
 		this.curso = curso;
 	}
+	
 	public Estudante(Integer iD, String nome, String curso) {
 		this.nome = nome;
 		ID = iD;
 		this.curso = curso;
+	}
+
+	
+	public Estudante(String cursoEditar) {
+		this.curso = cursoEditar;
 	}
 
 	public String getNome() {

@@ -38,11 +38,55 @@ public class BancoDeDados extends ConexaoDataBase {
 
 	}
 
-	public void atualizarEstudante(String id, Estudante estudante) throws InterruptedException {
+	public static void atualizarEstudanteAmbos(String id, Estudante estudante) throws InterruptedException {
 		try {
 			stm = conexao.createStatement();
 			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s', curso = '%s' WHERE id = %s",
 					estudante.getNome(), estudante.getCurso(), id);
+			int resultado = stm.executeUpdate(queryUpdate);
+			if (resultado > 0) {
+				System.out.println("\n\t -- Estudante Atualizado --");
+				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
+			} else {
+				System.out.println("Erro ao Editar estudante");
+			}
+			// fechando a conexao.
+			stm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		TimeUnit.SECONDS.sleep(2);
+		Menu.clearScreen();
+
+	}
+	
+	public static void atualizarEstudanteNome(String id, Estudante estudante) throws InterruptedException {
+		try {
+			stm = conexao.createStatement();
+			String queryUpdate = String.format("UPDATE estudantes SET nome = '%s' WHERE id = %s",
+					estudante.getNome(), id);
+			int resultado = stm.executeUpdate(queryUpdate);
+			if (resultado > 0) {
+				System.out.println("\n\t -- Estudante Atualizado --");
+				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
+			} else {
+				System.out.println("Erro ao Editar estudante");
+			}
+			// fechando a conexao.
+			stm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		TimeUnit.SECONDS.sleep(2);
+		Menu.clearScreen();
+
+	}
+	
+	public static void atualizarEstudanteCurso(String id, Estudante estudante) throws InterruptedException {
+		try {
+			stm = conexao.createStatement();
+			String queryUpdate = String.format("UPDATE estudantes SET curso = '%s' WHERE id = %s",
+					estudante.getCurso(), id);
 			int resultado = stm.executeUpdate(queryUpdate);
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Atualizado --");
