@@ -30,9 +30,7 @@ public class SistemaGerenciamentoEstudantes {
 		System.out.println("\n\n\t--- SEJA BEM VINDO AO ESTUDANTECH ---\n");
 
 		do {
-			menu.exibirMenu();				
-			
-
+			menu.exibirMenu();
 			switch (menu.getOpcaoMenu()) {
 
 			case 1:
@@ -43,8 +41,7 @@ public class SistemaGerenciamentoEstudantes {
 				System.out.print("Insira o Nome: ");
 			    String nome = sc.nextLine().trim();			    
 			    System.out.print("Insira o Curso: ");
-			    String curso = sc.nextLine().trim();
-			    
+			    String curso = sc.nextLine().trim();			    
 				//instanciando - conexao com Estudante
 			    estudante = new Estudante(nome, curso);
 			    //instanciando - conexao com o banco				
@@ -139,8 +136,6 @@ public class SistemaGerenciamentoEstudantes {
 			}
 		} 
 		while(menu.getOpcaoMenu() != null);
-
 		sc.close();
-
 	}
 }

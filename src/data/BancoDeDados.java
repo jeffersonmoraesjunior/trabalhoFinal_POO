@@ -4,12 +4,15 @@ import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import explorer.OpenExplorer;
 import model.Estudante;
 import view.Menu;
 
 public class BancoDeDados extends ConexaoDataBase {
+	Scanner sc = new Scanner(System.in);
 
 	private static Boolean validacao;
 	private static Integer resultadoId;
@@ -223,11 +226,12 @@ public class BancoDeDados extends ConexaoDataBase {
 			FileWriter escrevaArquivo = new FileWriter("C:\\Temp\\" + nomeArquivo + "." + extensao);
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
+			escrevaArquivo.write("id, nome, curso,\n");
 			while (resultado.next()) {
 				int id = resultado.getInt("id");
 				String nome = resultado.getString("nome");
-				String curso = resultado.getString("curso");
-
+				String curso = resultado.getString("curso");				
+				
 				escrevaArquivo.write(id + ", " + nome + ", " + curso);
 				escrevaArquivo.write("\n");
 
@@ -238,21 +242,25 @@ public class BancoDeDados extends ConexaoDataBase {
 			Menu.clearScreen();
 			System.out.println("\nArquivo Exportado com Sucesso!");
 			System.out.println("Verifique no diretorio: C:\\Temp\\" + nomeArquivo + "." + extensao);
+			System.out.print("\nDeseja abrir o Diretório (y/n): ");
+			char abrirExplorer = sc.next().charAt(0);
+			if(abrirExplorer == 'y') {
+				TimeUnit.SECONDS.sleep(1);
+				OpenExplorer.main();
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(1);
 
 	}
 
-	public static void validarIdEstudante(String id) {
-		
+	public static void validarIdEstudante(String id) {		
 		try {
 			stm = conexao.createStatement();
 			String querySelectId = String.format("SELECT * FROM estudantes WHERE id = %s", id);
-
 			PreparedStatement preparedStatement = conexao.prepareStatement(querySelectId);
-
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			if (resultSet.next()) {
@@ -264,11 +272,11 @@ public class BancoDeDados extends ConexaoDataBase {
 			// fechando a conexao.
 			stm.close();
 
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 //			e.printStackTrace();
 //			System.out.println("Dado inválido!");
 		}
-
 	}
 	
 	public static Boolean getValidacao() {
@@ -277,7 +285,7 @@ public class BancoDeDados extends ConexaoDataBase {
 
 	public static Integer getResultadoId() {
 		return resultadoId;
-	}
+	}	
 
 	// INFORMAÇÕES GERAIS
 
