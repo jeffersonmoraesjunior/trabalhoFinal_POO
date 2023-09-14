@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import view.Menu;
+
 public class CriadorDeTabela {
 	public void construirTabelas(Connection conexao) {
 
@@ -13,6 +15,7 @@ public class CriadorDeTabela {
 			Statement statement = conexao.createStatement();
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
+			Menu.clearScreen();
 			System.out.println("Não foi possível obter o Statement da conexão.");
 			System.out.println("Erro: " + e.getMessage());
 		}

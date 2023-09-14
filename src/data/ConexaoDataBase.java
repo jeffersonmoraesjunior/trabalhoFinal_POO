@@ -3,6 +3,8 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import view.Menu;
+
 public class ConexaoDataBase {
 	
 	// Parametros da Conexao
@@ -24,6 +26,7 @@ public class ConexaoDataBase {
 				conexao = DriverManager.getConnection(url, usuario, senha);
 				System.out.println("Conexao com Banco de Dados Estabelecida.");
 			} catch (Exception e) {
+				Menu.clearScreen();
 				e.printStackTrace();
 			}
 		}

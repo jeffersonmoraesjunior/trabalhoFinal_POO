@@ -54,77 +54,20 @@ public class SistemaGerenciamentoEstudantes {
 			case 2:
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu EDITAR -- \n");
-				Menu.exibirMenuEditar();
-				BancoDeDados.listarEstudanteId();
-				String nomeEditar = "Não foi atualizado";
-				String cursoEditar = "Não foi atualizado";
-				//INPUT
-				if(query.getValidacao() == true) {
-					System.out.print("\nInforme o ID Estudante: ");					
-					try {
-						String idEditar = sc.next().trim();
-						sc.nextLine();
-						query.validarIdEstudante(idEditar);
-						if(query.getResultadoId() == 1) {
-							try {
-								if(Menu.getOpcaoMenuEditarEstudante() == 1) {
-									System.out.print("Digite o nome atualizado: ");
-									nomeEditar = sc.nextLine().trim();
-									Menu.clearScreen();
-									estudante = new Estudante(nomeEditar, cursoEditar);
-									BancoDeDados.atualizarEstudanteNome(idEditar, estudante);
-								}
-								else if(Menu.getOpcaoMenuEditarEstudante() == 2) {
-									System.out.print("Digite o curso atualizado: ");
-									cursoEditar = sc.nextLine().trim();
-									Menu.clearScreen();
-									estudante = new Estudante(nomeEditar, cursoEditar);
-									BancoDeDados.atualizarEstudanteCurso(idEditar, estudante);
-								}
-								else if(Menu.getOpcaoMenuEditarEstudante() == 3) {
-									System.out.print("Digite o nome atualizado: ");
-									nomeEditar = sc.nextLine().trim();
-									System.out.print("Digite o curso atualizado: ");
-									cursoEditar = sc.nextLine().trim();
-									Menu.clearScreen();
-									estudante = new Estudante(nomeEditar, cursoEditar);
-									BancoDeDados.atualizarEstudanteAmbos(idEditar, estudante);
-								}
-								else {
-									System.out.println("Entrada inválida, tente novamente.");
-								}
-							}catch (Exception e) {
-								System.out.println("Erro ao editar, digite um número inteiro.");
-							}
-						}
-						else {
-							System.out.println("\nEsse ID não existe na lista de estudantes!");
-							System.out.print("Pressione ENTER para voltar ao menu principal: ");
-							sc.nextLine();
-							Menu.clearScreen();
-						}				
-					}
-					catch (InputMismatchException e) {
-						System.out.println("Entrada inválida!");
-					}
-					catch (NullPointerException e) {
-						Menu.clearScreen();
-						System.out.println("\nEntrada inválida, digite um número Inteiro!");
-					}						
-				}								
+				Menu.exibirMenuEditar();													
 				break;
 
 			case 3:
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu REMOVER -- \n");
 				BancoDeDados.listarEstudanteId(); //Será listado os estudantes com base na lista mostrada acima
-				if(query.getValidacao() == true) {
+				if(BancoDeDados.getValidacao() == true) {
 					//INPUT USER			
 					System.out.print("\nInforme o Id: ");					
 					try {
 						String id = sc.next().trim();
-						query.validarIdEstudante(id);
-						if(query.getResultadoId() == 1) {
+						BancoDeDados.validarIdEstudante(id);
+						if(BancoDeDados.getResultadoId() == 1) {
 							System.out.print("Você tem certeza que deseja excluir (y/n): ");
 							char opc = sc.next().trim().charAt(0);
 							if(opc == 'y') {
@@ -144,6 +87,7 @@ public class SistemaGerenciamentoEstudantes {
 						
 					} 
 					catch (InputMismatchException e) {
+						Menu.clearScreen();
 						System.out.println("Entrada inválida!");
 					}
 					catch (NullPointerException e) {
@@ -175,7 +119,7 @@ public class SistemaGerenciamentoEstudantes {
 				Menu.clearScreen();
 				System.out.println("\n\t -- Você escolheu EXPORTAR -- \n");
 				BancoDeDados.listarEstudanteId();
-				if(query.getValidacao() == true) {
+				if(BancoDeDados.getValidacao() == true) {
 					sc.nextLine();
 					System.out.print("\nDigite o nome do Arquivo: ");
                     /* Tratamento do nomeArquivo - remove os espacos do inicio e fim(.trim()), 
@@ -189,11 +133,12 @@ public class SistemaGerenciamentoEstudantes {
 				break;
 
 			default:
+				Menu.clearScreen();
 				System.out.println("Opção inválida, tente novamente!");
 				break;
 			}
 		} 
-		while(menu.getOpcaoMenu() != 7);
+		while(menu.getOpcaoMenu() != null);
 
 		sc.close();
 

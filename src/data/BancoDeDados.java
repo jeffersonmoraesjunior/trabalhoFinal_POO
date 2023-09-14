@@ -12,7 +12,7 @@ import view.Menu;
 public class BancoDeDados extends ConexaoDataBase {
 
 	private static Boolean validacao;
-	private Integer resultadoId;
+	private static Integer resultadoId;
 	private static Statement stm = null;
 
 	public void adicionarEstudante(Estudante estudante) throws InterruptedException {
@@ -26,6 +26,7 @@ public class BancoDeDados extends ConexaoDataBase {
 				System.out.println("\n\t -- Estudante Adicionado --");
 				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
+				Menu.clearScreen();
 				System.out.println("Erro ao Adicionar o " + estudante.getNome() + " do curso " + estudante.getCurso());
 			}
 			// fechando a conexao.
@@ -48,6 +49,7 @@ public class BancoDeDados extends ConexaoDataBase {
 				System.out.println("\n\t -- Estudante Atualizado --");
 				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
+				Menu.clearScreen();
 				System.out.println("Erro ao Editar estudante");
 			}
 			// fechando a conexao.
@@ -70,6 +72,7 @@ public class BancoDeDados extends ConexaoDataBase {
 				System.out.println("\n\t -- Estudante Atualizado --");
 				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
+				Menu.clearScreen();
 				System.out.println("Erro ao Editar estudante");
 			}
 			// fechando a conexao.
@@ -92,6 +95,7 @@ public class BancoDeDados extends ConexaoDataBase {
 				System.out.println("\n\t -- Estudante Atualizado --");
 				System.out.println("Nome: " + estudante.getNome() + " | Curso: " + estudante.getCurso() + ".");
 			} else {
+				Menu.clearScreen();
 				System.out.println("Erro ao Editar estudante");
 			}
 			// fechando a conexao.
@@ -113,6 +117,7 @@ public class BancoDeDados extends ConexaoDataBase {
 			if (resultado > 0) {
 				System.out.println("\n\t -- Estudante Removido --");
 			} else {
+				Menu.clearScreen();
 				System.out.println("Erro ao remover o estudante.");
 			}
 			// fechando a conexao.
@@ -142,6 +147,7 @@ public class BancoDeDados extends ConexaoDataBase {
 				} while (resultado.next());
 				validacao = true;
 			} else {
+				Menu.clearScreen();
 				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
 				validacao = false;
 			}
@@ -155,7 +161,7 @@ public class BancoDeDados extends ConexaoDataBase {
 	
 	public static void listarEstudanteNome() {
 		try {
-			String querySelect = String.format("SELECT nome, STRING_AGG(curso, ', ') FROM estudantes GROUP BY nome;");
+			String querySelect = String.format("SELECT nome, STRING_AGG(curso, ', ') FROM estudantes GROUP BY nome ORDER BY nome;");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
 			
@@ -169,6 +175,7 @@ public class BancoDeDados extends ConexaoDataBase {
 				} while (resultado.next());
 				validacao = true;
 			} else {
+				Menu.clearScreen();
 				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
 				validacao = false;
 			}
@@ -182,7 +189,7 @@ public class BancoDeDados extends ConexaoDataBase {
 	
 	public static void listarEstudanteCurso() {
 		try {
-			String querySelect = String.format("SELECT curso, STRING_AGG(nome, ', ') FROM estudantes GROUP BY curso;");
+			String querySelect = String.format("SELECT curso, STRING_AGG(nome, ', ') FROM estudantes GROUP BY curso ORDER BY curso;");
 			stm = conexao.createStatement();
 			ResultSet resultado = stm.executeQuery(querySelect);
 
@@ -196,6 +203,7 @@ public class BancoDeDados extends ConexaoDataBase {
 				} while (resultado.next());
 				validacao = true;
 			} else {
+				Menu.clearScreen();
 				System.out.println("\n\t-- NENHUM ALUNO CADASTRADO NO SISTEMA --");
 				validacao = false;
 			}
@@ -237,7 +245,7 @@ public class BancoDeDados extends ConexaoDataBase {
 
 	}
 
-	public void validarIdEstudante(String id) {
+	public static void validarIdEstudante(String id) {
 		
 		try {
 			stm = conexao.createStatement();
@@ -263,11 +271,11 @@ public class BancoDeDados extends ConexaoDataBase {
 
 	}
 	
-	public Boolean getValidacao() {
+	public static Boolean getValidacao() {
 		return validacao;
 	}
 
-	public Integer getResultadoId() {
+	public static Integer getResultadoId() {
 		return resultadoId;
 	}
 
