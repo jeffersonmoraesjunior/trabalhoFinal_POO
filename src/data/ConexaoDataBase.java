@@ -19,7 +19,7 @@ public class ConexaoDataBase {
 		public ConexaoDataBase() {
 			url = "jdbc:postgresql://localhost:5432/TrabalhoFinalPOO";
 			usuario = "postgres";
-			senha = "1234"; //Senha que eu mesmo coloquei no Banco de dados
+			senha = "123456"; //Senha que eu mesmo coloquei no Banco de dados
 
 			try {
 				Class.forName("org.postgresql.Driver");
